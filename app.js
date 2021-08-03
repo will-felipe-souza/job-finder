@@ -16,7 +16,7 @@ db
   })
   .catch(err => {
     console.log('Ocorreu um erro ao conectar0', err)
-  })
+  });
 
 // routes
 app.get('/', (req, res) => {
