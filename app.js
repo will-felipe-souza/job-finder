@@ -1,5 +1,7 @@
 const express = require('express');
+const exphbs = require('express-handlebars');
 const app = express();
+const path = require('path');
 const db = require('./db/connection');
 const bodyParser = require('body-parser');
 
@@ -9,8 +11,16 @@ app.listen(PORT, function() {
   console.log(`O Express está rodando na porta ${PORT}`);
 });
 
-// body parser
+// body parser, para usar o body das requisições
 app.use(bodyParser.urlencoded({extended: false}));
+
+// handle bars
+app.set('views', path.join(__dirname,'views')); //Onde ficará os tamplates
+app.engine('handlebars', exphbs({defaultLayout: 'main'})); //Arquivo principal das views
+app.set('view engine', 'handlebars');
+
+// static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 // db connection
 db
@@ -24,7 +34,7 @@ db
 
 // routes
 app.get('/', (req, res) => {
-  res.send("Está funcionando 4");
+  res.render('index');
 });
 
 // jobs routes
